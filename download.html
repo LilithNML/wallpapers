@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Descargando wallpaper…</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f0f1a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .card {
+      max-width: 420px;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    }
+
+    a {
+      color: #9f8cff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <p>Tu wallpaper se está descargando 💜</p>
+
+    <img id="preview" alt="" style="display:none">
+
+    <p>
+      ¿No inició la descarga?<br>
+      <a id="fallback" href="#">Descargar manualmente</a>
+    </p>
+  </div>
+
+  <a id="dl" style="display:none"></a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const img = params.get('img');
+
+    if (!img) {
+      document.body.innerHTML = '<p>Wallpaper no encontrado 🥲</p>';
+      throw new Error('No image specified');
+    }
+
+    const path = `/te_amo/assets/wallpapers/${img}`;
+
+    // preview
+    const preview = document.getElementById('preview');
+    preview.src = path;
+    preview.style.display = 'block';
+
+    // download link
+    const dl = document.getElementById('dl');
+    dl.href = path;
+    dl.download = img;
+
+    // fallback
+    const fallback = document.getElementById('fallback');
+    fallback.href = path;
+    fallback.download = img;
+
+    // auto download
+    setTimeout(() => {
+      dl.click();
+    }, 300);
+  </script>
+
+</body>
+</html>
